@@ -1,0 +1,16 @@
+version: '3.1' # Specify the version of the docker-compose file
+services:
+  db: # Service name, can be anything you want
+    container_name: visahack_scarper_db
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - "3390:3306" # Map the default MySQL port from the container to the host
+    environment:
+      MYSQL_ROOT_PASSWORD: root # Set the password for the root user (use a strong password in production)
+      MYSQL_DATABASE: visahack_scraper # (Optional) Specify the name of the database to be created on image startup
+
+    volumes:
+      - visahack_scraper_db:/var/lib/mysql # Persist database data between container restarts
+volumes:
+  visahack_scraper_db: # Declare the volume
