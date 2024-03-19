@@ -14,6 +14,7 @@ def scrape_urls():
         sleep(10)
         country = "GB"
         links = ius.scrape(country, i)
+        logger.info(f"start cron_indeed#scrape_urls. country:{country}, page:{i}")
         for link in links:
             try:
                 link.save()
@@ -33,6 +34,7 @@ def scrape_urls():
 def scrape_details():
     ids = IndeedDetailScraper()
     links = Link.find_no_details()
+    logger.info(f"start cron_indeed#scrape_details.")
 
     for link in links:
         sleep(5)
@@ -49,9 +51,9 @@ def scrape_details():
 
 
 
-# scrape links
+logger.info(f"start cron_indeed")
+
 scrape_urls()
 
-# scrape details
 scrape_details()
 
