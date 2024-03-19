@@ -1,0 +1,3 @@
+* * * * * cd /app && python -m crons.health_check >> /app/logs/cron.log 2>&1
+* * * * * echo "test" >> /app/logs/cron.log 2>&1
+0 0 * * * cd /app && python -m crons.cron_indeed >> /app/logs/cron.log 2>&1

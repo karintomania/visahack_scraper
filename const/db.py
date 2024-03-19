@@ -1,7 +1,9 @@
+import os
+ 
 const_db = {
-    "host": "localhost",
-    "port": "3390",
-    "user": "root",
-    "password": "root",
-    "database": "visahack_scraper",
+    "host": os.getenv('DB_HOST'),
+    "port": os.getenv("DB_PORT"),
+    "user": os.getenv("DB_USERNAME"),
+    "password": os.getenv("DB_PASSWORD"),
+    "database": os.getenv("DB_NAME"),
 }
