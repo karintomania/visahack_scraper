@@ -10,7 +10,7 @@ class IndeedUrlScraper:
     def scrape(self, country: str, page: int):
 
         start_index = page * 10
-        url = queries[Countries.GB].format(start_index)
+        url = queries[country].format(start_index)
         
         html_source = read_html(url)
 

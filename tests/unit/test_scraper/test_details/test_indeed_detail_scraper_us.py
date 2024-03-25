@@ -1,14 +1,14 @@
 from pathlib import Path
-from scraper.detail.indeed_detail_scraper import IndeedDetailScraper
+from scraper.detail.indeed_detail_scraper_us import IndeedDetailScraperUs
 
-ids = IndeedDetailScraper()
+ids = IndeedDetailScraperUs()
 
 
 def test_get_detail_gets_job_detail():
     html_path = str(Path(__file__).parent) + "/indeed_details.html"
     with open(html_path, "r") as html_file:
         html_source = html_file.read()
-        country = "GB"
+        country = "US"
 
         result = ids.get_detail(html_source, country)
 
