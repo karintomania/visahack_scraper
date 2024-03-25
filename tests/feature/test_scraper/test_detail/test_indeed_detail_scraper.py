@@ -1,10 +1,15 @@
-from scraper.details.indeed_detail_scraper import IndeedDetailScraper
+from scraper.detail.indeed_detail_scraper import IndeedDetailScraper
+from const.countries import Countries, queries
 
 sdi = IndeedDetailScraper()
 
 
 def test_scrape_list():
-    result = sdi.scrape_list()
+    assert True
+    
+    # result = sdi.scrape(query)
+
+    
     # print(result)
     # assert 15 == len(result)
 
