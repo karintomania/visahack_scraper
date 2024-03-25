@@ -9,12 +9,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Install cron, wget for downloading, and software-properties-common for add-apt-repository
 RUN apt-get update && apt-get install -y cron chromium chromium-driver 
  
-COPY crontab /etc/cron.d/crontab
+COPY crontab /etc/cron.daily/crontab
 
-RUN chmod 644 /etc/cron.d/crontab
-RUN crontab /etc/cron.d/crontab
+RUN chmod 644 /etc/cron.daily/crontab
+RUN crontab /etc/cron.daily/crontab
 RUN mkdir /app/logs/
 RUN touch /app/logs/cron.log
 
-# CMD  Xvfb :99 & cron && tail -f /app/logs/myapp.log
 CMD  cron && tail -f /app/logs/myapp.log
