@@ -7,7 +7,7 @@ from const.countries import Countries, queries, link_prifixes
 
 class IndeedUrlScraper:
 
-    def scrape(self, country: str, page: int):
+    def scrape(self, country: str, page: int) -> List[Link]:
 
         start_index = page * 10
         url = queries[country].format(start_index)
