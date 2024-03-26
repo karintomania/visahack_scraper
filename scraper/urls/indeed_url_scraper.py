@@ -5,13 +5,14 @@ from scraper.read_html import read_html
 from bs4 import BeautifulSoup
 from const.countries import Countries, queries, link_prifixes
 
+
 class IndeedUrlScraper:
 
     def scrape(self, country: str, page: int) -> List[Link]:
 
         start_index = page * 10
         url = queries[country].format(start_index)
-        
+
         html_source = read_html(url)
 
         result = self.get_list(html_source, country)
@@ -30,7 +31,9 @@ class IndeedUrlScraper:
             link = link_prifixes[Countries.GB].format(uri)
             external_id = job_title.find("a").get("data-jk")
 
-            job_link = Link(external_id=external_id, origin="indeed", url=link, country=country)
+            job_link = Link(
+                external_id=external_id, origin="indeed", url=link, country=country
+            )
             urls.append(job_link)
 
         return urls

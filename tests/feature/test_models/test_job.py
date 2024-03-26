@@ -32,6 +32,7 @@ def test_constructor():
     assert job.description == "This is the job description"
     assert job.active == True
 
+
 def test_save():
     job = Job(
         external_id="abc123",
@@ -60,4 +61,3 @@ def test_save():
     assert result.job_type == "Permanent"
     assert result.description == "This is the job description"
     assert result.active == True
-

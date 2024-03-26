@@ -1,5 +1,6 @@
 from models.db_connection import db
-from const.common import JOB_EXPIRED_DAYS,JOB_REMOVAL_DAYS
+from const.common import JOB_EXPIRED_DAYS, JOB_REMOVAL_DAYS
+
 
 def deactivate_jobs():
     with db.cursor() as cursor:
@@ -14,6 +15,7 @@ def deactivate_jobs():
         db.commit()
         return cursor.rowcount
 
+
 def clean_jobs():
     with db.cursor() as cursor:
 
@@ -25,6 +27,7 @@ def clean_jobs():
 
         db.commit()
         return cursor.rowcount
+
 
 def clean_links():
     with db.cursor() as cursor:

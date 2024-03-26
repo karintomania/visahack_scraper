@@ -6,10 +6,9 @@ sdi = IndeedDetailScraper()
 
 def test_scrape_list():
     assert True
-    
+
     # result = sdi.scrape(query)
 
-    
     # print(result)
     # assert 15 == len(result)
 

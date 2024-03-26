@@ -9,6 +9,7 @@ from cleaner.clean_query import deactivate_jobs, clean_links
 target_job_id: int = 1
 target_link_id: int = 1
 
+
 def insert_job(cursor, job_expired):
     # insert a expired job
     query = (
@@ -28,7 +29,7 @@ def insert_job(cursor, job_expired):
         "Full time",
         "Description of the company",
         1,
-        job_expired.strftime("%Y-%m-%d %H:%M:%S")
+        job_expired.strftime("%Y-%m-%d %H:%M:%S"),
     )
 
     cursor.execute(query, data)
@@ -56,6 +57,7 @@ def insert_link(cursor, link_expired):
     target_job_id = cursor.lastrowid
     return target_job_id
 
+
 with db.cursor() as cursor:
     cursor.execute("TRUNCATE TABLE jobs")
     cursor.execute("TRUNCATE TABLE job_links")
@@ -68,10 +70,10 @@ with db.cursor() as cursor:
     # insert a expired job
     target_job_id = insert_job(cursor, job_expired)
 
-
     target_link_id = insert_link(cursor, link_expired)
 
     db.commit()
+
 
 def test_deactivate_jobs():
     job = Job.find_by_id(target_job_id)
@@ -84,6 +86,7 @@ def test_deactivate_jobs():
     updated_job = Job.find_by_id(target_job_id)
     assert updated_job.active == False
     assert row_count == 1
+
 
 def test_clean_links():
     link = Link.find_by_id(target_link_id)

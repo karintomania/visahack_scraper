@@ -20,5 +20,5 @@ try:
 except Exception as e:
     logger.error("Error on cleaning links")
     logger.exception(e)
- 
+
 logger.info("Finished cleaning")

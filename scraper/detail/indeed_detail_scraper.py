@@ -7,7 +7,7 @@ from scraper.read_html import read_html
 
 class IndeedDetailScraper:
 
-    def scrape(self, link:Link):
+    def scrape(self, link: Link):
         html_source = read_html(link.url)
 
         with open("test.html", "w") as ht:
@@ -27,8 +27,8 @@ class IndeedDetailScraper:
     def create_basic_job(self, job_details_json, country):
         title = job_details_json["jobTitle"]
         benefits = job_details_json["benefitsModel"]["benefits"]
-        external_id = job_details_json['jobKey']
-        location = job_details_json['jobLocation']
+        external_id = job_details_json["jobKey"]
+        location = job_details_json["jobLocation"]
 
         job_info_model = job_details_json["jobInfoWrapperModel"]["jobInfoModel"]
         company = job_info_model["jobInfoHeaderModel"]["companyName"]
@@ -52,7 +52,7 @@ class IndeedDetailScraper:
             location=location,
             job_type=job_type,
             description=description,
-            active=True
+            active=True,
         )
 
         return job

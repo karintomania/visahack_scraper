@@ -47,7 +47,7 @@ class Job:
         return None
 
     @classmethod
-    def convert_db_row(cls, row)-> Self:
+    def convert_db_row(cls, row) -> Self:
         job = cls(
             id=row[0],
             external_id=row[1],
@@ -66,8 +66,6 @@ class Job:
         )
         return job
 
-
-
     def save(self) -> int:
         if self.id is None:
             query, data = self.insert_row()
@@ -78,7 +76,9 @@ class Job:
         with db.cursor() as cursor:
             cursor.execute(query, data)
             if self.id is None:
-                self.id = cursor.lastrowid  # This is only relevant for insert operations
+                self.id = (
+                    cursor.lastrowid
+                )  # This is only relevant for insert operations
             db.commit()
 
         return self.id

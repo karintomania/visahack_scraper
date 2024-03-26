@@ -23,6 +23,7 @@ def test_get_detail_gets_job_detail():
     assert result.salary == "From £55,000 a year"
     assert result.description == "test description"
 
+
 def test_get_detail_raise_no_sponsorship_exception():
     html_path = str(Path(__file__).parent) + "/indeed_details_no_visa.html"
     with open(html_path, "r") as html_file:
