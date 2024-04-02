@@ -6,7 +6,7 @@ def deactivate_jobs():
     with db.cursor() as cursor:
 
         deactivate_query = f"""
-        UPDATE jobs
+        UPDATE job_posts
         SET active = 0
         WHERE created_at < DATE_SUB(NOW(), INTERVAL {JOB_EXPIRED_DAYS} DAY);
         """
@@ -20,7 +20,7 @@ def clean_jobs():
     with db.cursor() as cursor:
 
         delete_query = f"""
-        DELETE FROM jobs 
+        DELETE FROM job_posts 
         WHERE created_at < DATE_SUB(NOW(), INTERVAL {JOB_REMOVAL_DAYS} DAY);
         """
         cursor.execute(delete_query)

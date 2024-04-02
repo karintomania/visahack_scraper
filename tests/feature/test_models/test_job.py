@@ -2,7 +2,7 @@ from models.job import Job
 from models.db_connection import db
 
 with db.cursor() as cursor:
-    cursor.execute("TRUNCATE TABLE jobs")
+    cursor.execute("TRUNCATE TABLE job_posts")
     db.commit()
 
 

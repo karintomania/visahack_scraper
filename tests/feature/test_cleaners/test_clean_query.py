@@ -13,7 +13,7 @@ target_link_id: int = 1
 def insert_job(cursor, job_expired):
     # insert a expired job
     query = (
-        "INSERT INTO jobs "
+        "INSERT INTO job_posts "
         "(external_id, origin, title, company, url, country, salary, location, job_type, description, active, created_at) "
         "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
     )
@@ -59,7 +59,7 @@ def insert_link(cursor, link_expired):
 
 
 with db.cursor() as cursor:
-    cursor.execute("TRUNCATE TABLE jobs")
+    cursor.execute("TRUNCATE TABLE job_posts")
     cursor.execute("TRUNCATE TABLE job_links")
 
     now = datetime.now()

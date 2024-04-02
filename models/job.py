@@ -37,7 +37,7 @@ class Job:
 
     @classmethod
     def find_by_id(cls, id: int):
-        query = "SELECT * FROM jobs WHERE id = %s"
+        query = "SELECT * FROM job_posts WHERE id = %s"
         with db.cursor() as cursor:
             cursor.execute(query, (id,))
             record = cursor.fetchone()
@@ -85,7 +85,7 @@ class Job:
 
     def update_row(self):
         query = (
-            "UPDATE jobs SET "
+            "UPDATE job_posts SET "
             "external_id = %s, origin = %s, title = %s, company = %s, "
             "url = %s, country = %s, salary = %s, location = %s, "
             "job_type = %s, description = %s, active = %s "
@@ -109,7 +109,7 @@ class Job:
 
     def insert_row(self):
         query = (
-            "INSERT INTO jobs "
+            "INSERT INTO job_posts "
             "(external_id, origin, title, company, url, country, salary, location, job_type, description, active) "
             "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
         )
