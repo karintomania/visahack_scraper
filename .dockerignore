@@ -1,0 +1,8 @@
+lib/
+__pycache__/
+*.py[cod]
+*$py.class
+!logs/.gitkeep
+logs/
+/*.html
+tests/

@@ -3,7 +3,10 @@ services:
 
   py:
     container_name: visahack_scraper_py
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
     environment:
       DB_HOST: db
       DB_PORT: 3306
