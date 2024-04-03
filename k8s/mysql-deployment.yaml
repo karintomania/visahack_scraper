@@ -27,6 +27,8 @@ spec:
       containers:
         - image: mysql:8
           name: mysql
+          tty: true
+          stdin: true
           env:
             - name: MYSQL_ROOT_PASSWORD
               value: "root"

@@ -15,8 +15,9 @@ spec:
     spec:
       containers:
       - name: visahack-scrape
-        image: visahack_scrape
-        imagePullPolicy: IfNotPresent
+        image: ghcr.io/karintomania/visahack_scrape:0.1
+        tty: true
+        stdin: true
         env:
           - name: DB_HOST
             value: mysql
@@ -26,3 +27,5 @@ spec:
             value: "root"
           - name: DB_NAMW
             value: "visahack_scraper"
+      imagePullSecrets:
+      - name: ghcr-io-cred
