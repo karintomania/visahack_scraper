@@ -1,0 +1,39 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: visahack-scraper-cron
+spec:
+  schedule: "0 0 * * *"
+  successfulJobsHistoryLimit: 5
+  failedJobsHistoryLimit: 5
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: visahack-scrape
+              image: ghcr.io/karintomania/visahack_scrape:latest
+              imagePullPolicy: IfNotPresent
+              command:
+              - /bin/sh
+              - -c
+              - |
+                python -m crons.cron_indeed;
+                tail -f /app/logs/myapp.log
+              env:
+                - name: DB_HOST
+                  value: mysql
+                - name: DB_PORT
+                  value: "3306"
+                - name: DB_USERNAME
+                  value: "root"
+                - name: DB_NAME
+                  value: "visahack_scraper"
+                - name: DB_PASSWORD
+                  valueFrom:
+                      secretKeyRef:
+                        name: visahack-secrets
+                        key: mysql-password
+          imagePullSecrets:
+          - name: ghcr-io-cred
+          restartPolicy: OnFailure

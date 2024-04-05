@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: visahack-scrape
-        image: ghcr.io/karintomania/visahack_scrape:0.1
+        image: ghcr.io/karintomania/visahack_scrape:latest
         tty: true
         stdin: true
         env:
@@ -25,7 +25,12 @@ spec:
             value: "3306"
           - name: DB_USERNAME
             value: "root"
-          - name: DB_NAMW
+          - name: DB_NAME
             value: "visahack_scraper"
+          - name: DB_PASSWORD
+            valueFrom:
+                secretKeyRef:
+                  name: visahack-secrets
+                  key: mysql-password
       imagePullSecrets:
       - name: ghcr-io-cred

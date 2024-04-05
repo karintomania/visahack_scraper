@@ -117,10 +117,12 @@ cython_debug/
 
 # Local env files
 .env.local.DS_Store
-.DS_Store
+**/.DS_Store
 __pycachek
 
 /*.html
 scraped/
 !logs/.gitkeep
 logs/
+
+**/secret.yaml
