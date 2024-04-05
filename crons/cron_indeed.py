@@ -2,36 +2,11 @@ from time import sleep
 
 from mysql.connector import IntegrityError
 from models.link import Link
-from scraper.urls.indeed_url_scraper import IndeedUrlScraper
+from scraper.urls.indeed_url_scraper import IndeedGbUrlScraper
 from common.logger import logger
 from scraper.detail.indeed_detail_scraper import IndeedDetailScraper
 from const.countries import Countries
-
-
-def scrape_urls():
-    ius = IndeedUrlScraper()
-
-    for country in Countries:
-        for i in range(1):
-            sleep(10)
-            links = ius.scrape(country, i)
-            print(links[:100])
-            logger.info(f"start cron_indeed#scrape_urls. country:{country}, page:{i}")
-            # for link in links:
-            #     try:
-            #         link.save()
-            #     except IntegrityError as e:
-            #         if 'Duplicate entry' in str(e):
-            #             logger.info(f"Duplicate link. ID: {link.external_id}, Origin: {link.origin}")
-            #         else:
-            #             logger.error("Error on scraping indeed url country={country}, i={i}")
-            #             logger.exception(e)
-            #             break
-            #     except Exception as e:
-            #             logger.error("Error on scraping indeed url country={country}, i={i}")
-            #             logger.exception(e)
-            #             break
-
+from commands.harvest_urls import harvest_urls
 
 def scrape_details():
     ids = IndeedDetailScraper()
@@ -53,6 +28,12 @@ def scrape_details():
 
 logger.info(f"start cron_indeed")
 
-scrape_urls()
+gb_indeed_url_scraper =IndeedGbUrlScraper()
+
+url_scrapers = [gb_indeed_url_scraper]
+
+for url_scraper in url_scrapers:
+    harvest_urls(url_scraper)
+    
 
 # scrape_details()

@@ -10,4 +10,4 @@ class Countries(Enum):
 queries = {
     Countries.GB: "https://uk.indeed.com/jobs?q=software+engineer+%22UK+visa+sponsorship%22&l=United+Kingdom&sort=date&start={}"
 }
-link_prifixes = {Countries.GB: "https://uk.indeed.com{}"}
+link_prefixes = {Countries.GB: "https://uk.indeed.com{}"}
