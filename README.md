@@ -8,5 +8,5 @@ python -m crons.cron_indeed
 ```
 
 ## Build Docker image
-docker build --target production -t karintomania/visahack_scrape:latest .
+docker build --target production -t ghcr.io/karintomania/visahack_scrape:latest .
 docker push ghcr.io/karintomania/visahack_scrape:latest 

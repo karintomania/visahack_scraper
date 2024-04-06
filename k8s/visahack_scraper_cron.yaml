@@ -12,14 +12,13 @@ spec:
         spec:
           containers:
             - name: visahack-scrape
-              image: ghcr.io/karintomania/visahack_scrape:latest
+              image: ghcr.io/karintomania/visahack_scrape@sha256:837a379960e605c141d9575fe0b8c370eaff4cd5f1c68cda2be26d79898e9983
               imagePullPolicy: IfNotPresent
-              command:
-              - /bin/sh
-              - -c
-              - |
-                python -m crons.cron_indeed;
-                tail -f /app/logs/myapp.log
+              # command:
+              # - /bin/sh
+              # - -c
+              # - |
+              #   tail -f /dev/null
               env:
                 - name: DB_HOST
                   value: mysql

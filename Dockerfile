@@ -21,5 +21,5 @@ FROM base AS production
 COPY . /app
 
 LABEL org.opencontainers.image.source=https://github.com/karintomania/visahack_scraper
-RUN +x /app/entrypoint.sh
-CMD ["/app/entrypoint.sh"]
+RUN chmod +x /app/entrypoint.sh
+CMD ["sh", "/app/entrypoint.sh"]
