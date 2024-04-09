@@ -1,6 +1,6 @@
 import logging
-from const.common import LOG_PATH
 import sys
+# from const.common import LOG_PATH
 # from logging.handlers import TimedRotatingFileHandler
 # import os
 

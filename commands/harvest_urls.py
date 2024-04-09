@@ -1,4 +1,4 @@
-from const.countries import Countries, queries, link_prefixes
+from const.countries import Countries
 from scraper.urls.url_scraper import UrlScraper
 from common.logger import logger
 from mysql.connector import IntegrityError

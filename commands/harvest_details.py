@@ -1,4 +1,4 @@
-from const.countries import Countries, queries, link_prefixes
+from const.countries import Countries
 from scraper.detail.detail_scraper import DetailScraper
 from common.logger import logger
 from models.job import Job
