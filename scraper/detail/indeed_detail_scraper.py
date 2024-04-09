@@ -35,6 +35,10 @@ class IndeedDetailScraper(DetailScraper):
         return job
 
     def validate_sponsorship(self, job_details_json) -> bool:
+
+        if not job_details_json["benefitsModel"]: # Jobs doesn't display benefits
+            return False
+
         benefits = job_details_json["benefitsModel"]["benefits"]
 
         # check if one of the benefits includes "Visa Sponsorship"
