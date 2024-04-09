@@ -4,6 +4,7 @@ from common.logger import logger
 from mysql.connector import IntegrityError
 from models.link import Link
 from time import sleep
+from const import common
 
 def save_link(link: Link):
         try:
@@ -20,9 +21,10 @@ def save_link(link: Link):
 
 def harvest_urls(scraper: UrlScraper) -> None:
 
-    for i in range(1):
+    scraper_name = type(scraper).__name__
+    end_page = common.INDEED_SCRAPE_PAGES
+    for i in range(end_page):
         sleep(3) # sleep to not DDoS
-        scraper_name = type(scraper).__name__
         logger.info(f"start scrape_url {scraper_name}, page: {i}")
         links = scraper.scrape(0)
 
