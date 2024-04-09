@@ -1,10 +1,20 @@
 from const.countries import Countries
+from const.urls import Websites
 from scraper.urls.url_scraper import UrlScraper
 from common.logger import logger
 from mysql.connector import IntegrityError
 from models.link import Link
 from time import sleep
-from const import common
+from const.common import SLEEP_BETWEEN_URL, SCRAPING_RETRY_ON_ERROR
+
+
+target_pages = {
+    Websites.INDEED:{
+        Countries.GB: 3,
+        Countries.US: 15,
+    },
+}
+
 
 def save_link(link: Link):
         try:
@@ -24,11 +34,22 @@ def harvest_urls(scraper: UrlScraper) -> None:
     scraper_name = type(scraper).__name__
     logger.info(f"start scrape_url {scraper_name}")
 
-    end_page = common.INDEED_SCRAPE_PAGES
+    end_page = target_pages[scraper.website][scraper.country]
     for i in range(end_page):
-        sleep(5) # sleep to not DDoS
+        sleep(SLEEP_BETWEEN_URL) # sleep to not DDoS
         logger.info(f"start scrape_url {scraper_name}, page: {i}")
-        links = scraper.scrape(0)
+        
+        counter = 0
+        is_finished = False
+
+        while SCRAPING_RETRY_ON_ERROR > counter and not is_finished:
+            try:
+                links = scraper.scrape(i)
+                is_finished = True
+            except Exception as e:
+                logger.error(e)
+                counter += 1
+
 
         for link in links:
             save_link(link)
