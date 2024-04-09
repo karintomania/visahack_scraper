@@ -12,7 +12,7 @@ from commands.harvest_details import harvest_details
 logger.info(f"start cron_indeed")
 
 url_scrapers = [
-    # IndeedGbUrlScraper(),
+    IndeedGbUrlScraper(),
     IndeedUsUrlScraper(),
 ]
 
@@ -20,7 +20,7 @@ url_scrapers = [
 #     harvest_urls(url_scraper)
     
 detail_scrapers = [
-    # IndeedGbDetailScraper(),
+    IndeedGbDetailScraper(),
     IndeedUsDetailScraper(),
 ]
 

@@ -12,13 +12,16 @@ spec:
         spec:
           containers:
             - name: visahack-scrape
-              image: ghcr.io/karintomania/visahack_scrape@sha256:837a379960e605c141d9575fe0b8c370eaff4cd5f1c68cda2be26d79898e9983
+              image: ghcr.io/karintomania/visahack_scrape@sha256:252849029104c89742a76313bb2ff5e8b868cbe55d2d9d0354b3e238cc9a702e
               imagePullPolicy: IfNotPresent
               # command:
               # - /bin/sh
               # - -c
               # - |
               #   tail -f /dev/null
+              volumeMounts:
+              - mountPath: /dev/shm
+                name: cache-volume
               env:
                 - name: DB_HOST
                   value: mysql
@@ -36,3 +39,8 @@ spec:
           imagePullSecrets:
           - name: ghcr-io-cred
           restartPolicy: OnFailure
+          volumes:
+          - emptyDir:
+              medium: Memory
+              sizeLimit: 256Mi
+            name: cache-volume
