@@ -54,28 +54,24 @@ def insert_link(cursor, link_expired):
 
     cursor.execute(query, data)
 
-    target_job_id = cursor.lastrowid
-    return target_job_id
+    return cursor.lastrowid
 
 
-with db.cursor() as cursor:
-    cursor.execute("TRUNCATE TABLE job_posts")
-    cursor.execute("TRUNCATE TABLE job_links")
-
-    now = datetime.now()
-
-    job_expired = now - timedelta(days=(JOB_EXPIRED_DAYS + 1))
-    link_expired = now - timedelta(days=(JOB_REMOVAL_DAYS + 1))
-
-    # insert a expired job
-    target_job_id = insert_job(cursor, job_expired)
-
-    target_link_id = insert_link(cursor, link_expired)
-
-    db.commit()
+def prepare_db():
+    with db.cursor() as cursor:
+        cursor.execute("TRUNCATE TABLE job_posts")
+        cursor.execute("TRUNCATE TABLE job_links")
+        db.commit()
 
 
 def test_deactivate_jobs():
+    prepare_db()
+    # insert a expired job
+    with db.cursor() as cursor:
+        now = datetime.now()
+        job_expired = now - timedelta(days=(JOB_EXPIRED_DAYS + 1))
+        target_job_id = insert_job(cursor, job_expired)
+
     job = Job.find_by_id(target_job_id)
 
     # the job is active when it's created
@@ -89,6 +85,13 @@ def test_deactivate_jobs():
 
 
 def test_clean_links():
+    prepare_db()
+
+    with db.cursor() as cursor:
+        now = datetime.now()
+        link_expired = now - timedelta(days=(JOB_REMOVAL_DAYS + 1))
+        target_link_id = insert_link(cursor, link_expired)
+
     link = Link.find_by_id(target_link_id)
 
     # the link is active when it's created

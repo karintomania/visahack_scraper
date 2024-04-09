@@ -1,9 +1,10 @@
 from models.link import Link
 from models.db_connection import db
 
-with db.cursor() as cursor:
-    cursor.execute("TRUNCATE TABLE job_links")
-    db.commit()
+def reset_job_links_table():
+    with db.cursor() as cursor:
+        cursor.execute("TRUNCATE TABLE job_links")
+        db.commit()
 
 
 def test_constructor():
@@ -21,6 +22,7 @@ def test_constructor():
 
 
 def test_save():
+    reset_job_links_table()
     l = Link(
         external_id="abc123",
         origin="indeed",
