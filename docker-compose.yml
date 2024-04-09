@@ -16,6 +16,7 @@ services:
     volumes:
       - .:/app
       - ./crontab:/etc/cron.daily/crontab
+    shm_size: '200mb'
 
   db:
     container_name: visahack_scraper_db
