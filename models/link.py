@@ -52,8 +52,7 @@ class Link:
         query = """SELECT * FROM job_links
                 WHERE has_detail = 0
                 AND origin = %s
-                AND country = %s
-                AND created_at >= CURDATE() - INTERVAL 3 DAY"""
+                AND country = %s"""
 
         with db.cursor() as cursor:
             cursor.execute(query, (websites.value, country.value))
