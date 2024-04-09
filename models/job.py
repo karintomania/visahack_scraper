@@ -1,5 +1,7 @@
 from typing_extensions import Self
 from models.db_connection import db
+from const.urls import Websites
+from const.countries import Countries
 
 
 class Job:
@@ -128,3 +130,9 @@ class Job:
         )
 
         return query, data
+
+    def getCountry(self) -> Countries:
+        return Countries(self.country)
+
+    def getWebsite(self) -> Websites:
+        return Websites(self.origin)

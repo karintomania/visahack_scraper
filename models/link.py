@@ -1,5 +1,7 @@
 from typing import List
 from models.db_connection import db
+from const.urls import Websites
+from const.countries import Countries
 
 
 class Link:
@@ -46,13 +48,15 @@ class Link:
         return None
 
     @classmethod
-    def find_no_details(cls):
+    def find_no_details(cls, websites: Websites , country: Countries):
         query = """SELECT * FROM job_links
                 WHERE has_detail = 0
+                AND origin = %s
+                AND country = %s
                 AND created_at >= CURDATE() - INTERVAL 3 DAY"""
 
         with db.cursor() as cursor:
-            cursor.execute(query)
+            cursor.execute(query, (websites.value, country.value))
             records = cursor.fetchall()
 
         links: List[Link] = []
@@ -113,3 +117,9 @@ class Link:
             id = cursor.lastrowid
             db.commit()
         return id
+
+    def getCountry(self) -> Countries:
+        return Countries(self.country)
+
+    def getWebsite(self) -> Websites:
+        return Websites(self.origin)

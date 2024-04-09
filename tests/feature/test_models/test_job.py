@@ -1,5 +1,8 @@
 from models.job import Job
 from models.db_connection import db
+from const.urls import Websites
+from const.countries import Countries
+
 
 with db.cursor() as cursor:
     cursor.execute("TRUNCATE TABLE job_posts")
@@ -61,3 +64,25 @@ def test_save():
     assert result.job_type == "Permanent"
     assert result.description == "This is the job description"
     assert result.active == True
+
+def test_get_enums():
+    country = Countries.GB
+    website = Websites.INDEED
+
+    job = Job(
+        external_id="abc123",
+        origin=website.value,
+        title="Python Developer",
+        company="Test Company",
+        url="/job1",
+        country=country.value,
+        salary="50K+",
+        location="London",
+        job_type="Permanent",
+        description="This is the job description",
+        active=True,
+    )
+    assert country == job.getCountry()
+    assert website == job.getWebsite()
+
+    

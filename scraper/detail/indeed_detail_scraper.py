@@ -4,14 +4,15 @@ from models.job import Job
 from models.link import Link
 from scraper.read_html import read_html
 from const.countries import Countries
+from const.urls import Websites
 from scraper.detail.detail_scraper import DetailScraper
 from scraper.detail.no_sponsor_exception import NoSponsorException
 
 
 class IndeedDetailScraper(DetailScraper):
 
-    def __init__(self):
-        self.country = Countries.GB
+    def __init__(self, country: Countries = Countries.GB):
+        super().__init__(Websites.INDEED, country)
 
     def scrape(self, link: Link) -> Job:
         html_source = read_html(link.url)
@@ -38,7 +39,7 @@ class IndeedDetailScraper(DetailScraper):
 
         # check if one of the benefits includes "Visa Sponsorship"
         has_sponsorship = any(
-            "Visa Sponsorship" in benefit["label"] for benefit in benefits
+            "visa sponsorship" in benefit["label"].lower() for benefit in benefits
         )
 
         return has_sponsorship 
@@ -63,7 +64,7 @@ class IndeedDetailScraper(DetailScraper):
 
         job = Job(
             external_id=external_id,
-            origin="indeed",
+            origin=self.website.value,
             title=title,
             company=company,
             country=self.country.value,
@@ -84,11 +85,14 @@ class IndeedDetailScraper(DetailScraper):
         return job_details_json
 
 class IndeedGbDetailScraper(IndeedDetailScraper):
+    def __init__(self):
+        super().__init__(Countries.GB)
     pass
 
 
 
 class IndeedUsDetailScraper(IndeedDetailScraper):
     def __init__(self):
-        self.country = Countries.US
+        super().__init__(Countries.US)
+    pass
 

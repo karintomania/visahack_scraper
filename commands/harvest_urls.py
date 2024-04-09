@@ -22,14 +22,18 @@ def save_link(link: Link):
 def harvest_urls(scraper: UrlScraper) -> None:
 
     scraper_name = type(scraper).__name__
+    logger.info(f"start scrape_url {scraper_name}")
+
     end_page = common.INDEED_SCRAPE_PAGES
     for i in range(end_page):
-        sleep(3) # sleep to not DDoS
+        sleep(5) # sleep to not DDoS
         logger.info(f"start scrape_url {scraper_name}, page: {i}")
         links = scraper.scrape(0)
 
         for link in links:
             save_link(link)
     
+    logger.info(f"finish scrape_url {scraper_name}")
+
 
 

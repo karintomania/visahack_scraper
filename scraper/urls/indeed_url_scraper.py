@@ -4,19 +4,19 @@ from models.link import Link
 from scraper.read_html import read_html
 from bs4 import BeautifulSoup
 from scraper.urls.url_scraper import UrlScraper
-from const.countries import Countries, queries, link_prefixes
+from const.countries import Countries
+from const.urls import Websites, link_prefixes, queries
 
 
 class IndeedUrlScraper(UrlScraper):
 
-    def __init__(self):
-        self.country = Countries.GB
-        self.link_prefix = link_prefixes[Countries.GB]
+    def __init__(self, country = Countries.GB):
+        super().__init__(Websites.INDEED, country)
 
     def scrape(self, page: int) -> List[Link]:
 
         start_index = page * 10
-        url = queries[self.country].format(start_index)
+        url = queries[self.website][self.country].format(start_index)
 
         html_source = read_html(url)
 
@@ -33,7 +33,7 @@ class IndeedUrlScraper(UrlScraper):
             job_data = beacon.find("table")
             job_title = job_data.find("h2")
             uri = job_title.find("a").get("href")
-            link = self.link_prefix.format(uri)
+            link = link_prefixes[self.website][self.country].format(uri)
             external_id = job_title.find("a").get("data-jk")
 
             job_link = Link(
@@ -45,10 +45,10 @@ class IndeedUrlScraper(UrlScraper):
 
 
 class IndeedGbUrlScraper(IndeedUrlScraper):
-    pass
+    def __init__(self):
+        super().__init__(Countries.GB)
 
 class IndeedUsUrlScraper(IndeedUrlScraper):
     def __init__(self):
-        self.country = Countries.US
-        self.link_prefix = link_prefixes[Countries.US]
+        super().__init__(Countries.US)
         
