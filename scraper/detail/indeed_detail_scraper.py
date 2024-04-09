@@ -5,6 +5,7 @@ from models.link import Link
 from scraper.read_html import read_html
 from const.countries import Countries
 from scraper.detail.detail_scraper import DetailScraper
+from scraper.detail.no_sponsor_exception import NoSponsorException
 
 
 class IndeedDetailScraper(DetailScraper):
@@ -18,18 +19,31 @@ class IndeedDetailScraper(DetailScraper):
         with open("test.html", "w") as ht:
             ht.write(html_source)
 
-        result = self.get_detail(html_source, link.country)
-        result.url = link.url
+        job = self.get_detail(html_source)
+        job.url = link.url
 
-        return result
-
-    def get_detail(self, html: str, country: str) -> Job:
-        job_details_json = self.get_job_details_json(html)
-
-        job = self.create_basic_job(job_details_json, country)
         return job
 
-    def create_basic_job(self, job_details_json, country) -> Job:
+    def get_detail(self, html: str) -> Job:
+        job_details_json = self.get_job_details_json(html)
+
+        if not self.validate_sponsorship(job_details_json):
+            raise NoSponsorException("This job doesn't offer sponsorship")
+
+        job = self.harvest_details(job_details_json)
+        return job
+
+    def validate_sponsorship(self, job_details_json) -> bool:
+        benefits = job_details_json["benefitsModel"]["benefits"]
+
+        # check if one of the benefits includes "Visa Sponsorship"
+        has_sponsorship = any(
+            "Visa Sponsorship" in benefit["label"] for benefit in benefits
+        )
+
+        return has_sponsorship 
+
+    def harvest_details(self, job_details_json) -> Job:
         title = job_details_json["jobTitle"]
         benefits = job_details_json["benefitsModel"]["benefits"]
         external_id = job_details_json["jobKey"]
@@ -52,7 +66,7 @@ class IndeedDetailScraper(DetailScraper):
             origin="indeed",
             title=title,
             company=company,
-            country=country,
+            country=self.country.value,
             salary=salary,
             location=location,
             job_type=job_type,
@@ -75,22 +89,6 @@ class IndeedGbDetailScraper(IndeedDetailScraper):
 
 
 class IndeedUsDetailScraper(IndeedDetailScraper):
+    def __init__(self):
+        self.country = Countries.US
 
-    def get_detail(self, html: str, country: str):
-        job_details_json = super().get_job_details_json(html)
-
-        benefits = job_details_json["benefitsModel"]["benefits"]
-
-        if not self.has_sponsorship(benefits):
-            raise NoSponsorException("This job doesn't offer sponsorship")
-
-        job = super().create_basic_job(job_details_json, country)
-
-        return job
-
-    def has_sponsorship(self, benefits) -> bool:
-
-        sponsorship = any(
-            benefit["label"] == "Visa Sponsorship" for benefit in benefits
-        )
-        return sponsorship
