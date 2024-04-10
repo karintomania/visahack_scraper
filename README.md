@@ -11,3 +11,6 @@ python -m crons.cron_indeed
 docker build --target production -t ghcr.io/karintomania/visahack_scrape:latest .
 docker push ghcr.io/karintomania/visahack_scrape:latest 
 docker inspect ghcr.io/karintomania/visahack_scrape:latest 
+
+## Access DB in minikube
+minikube service mysql -n visahack-scraper
