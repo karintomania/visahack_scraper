@@ -13,7 +13,7 @@ spec:
         spec:
           containers:
             - name: visahack-scrape
-              image: ghcr.io/karintomania/visahack_scrape@sha256:252849029104c89742a76313bb2ff5e8b868cbe55d2d9d0354b3e238cc9a702e
+              image: ghcr.io/karintomania/visahack_scrape@sha256:1d5e5377a084f898fcf152f319b5dbdb8f4f65b4ff6eb53949341eb6caed918a
               imagePullPolicy: IfNotPresent
               # command:
               # - /bin/sh
