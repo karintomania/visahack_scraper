@@ -2,6 +2,7 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: visahack-scraper-cron
+  namespace: visahack-scraper
 spec:
   schedule: "0 0 * * *"
   successfulJobsHistoryLimit: 5
