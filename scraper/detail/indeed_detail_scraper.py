@@ -17,9 +17,6 @@ class IndeedDetailScraper(DetailScraper):
     def scrape(self, link: Link) -> Job:
         html_source = read_html(link.url)
 
-        with open("test.html", "w") as ht:
-            ht.write(html_source)
-
         job = self.get_detail(html_source)
         job.url = link.url
 
@@ -56,8 +53,7 @@ class IndeedDetailScraper(DetailScraper):
 
         job_info_model = job_details_json["jobInfoWrapperModel"]["jobInfoModel"]
         company = job_info_model["jobInfoHeaderModel"]["companyName"]
-        # location = job_info_model["jobInfoHeaderModel"]["formattedLocation"]
-        description = job_info_model["sanitizedJobDescription"]
+        description = self.sanitise_html(job_info_model["sanitizedJobDescription"])
         job_type = job_info_model["jobMetadataHeaderModel"]["jobType"]
 
         salary_info_model = job_details_json["salaryInfoModel"]
