@@ -16,8 +16,8 @@ url_scrapers = [
     IndeedUsUrlScraper(),
 ]
 
-# for url_scraper in url_scrapers:
-#     harvest_urls(url_scraper)
+for url_scraper in url_scrapers:
+    harvest_urls(url_scraper)
     
 detail_scrapers = [
     IndeedGbDetailScraper(),
