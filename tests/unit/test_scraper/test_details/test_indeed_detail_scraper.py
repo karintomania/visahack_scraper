@@ -26,7 +26,7 @@ def test_get_detail_gets_job_detail(scraper: DetailScraper, country: Countries):
     assert result.location == "Remote"
     assert result.job_type == "Permanent, Full-time"
     assert result.salary == "From £55,000 a year"
-    assert result.description == "test description"
+    assert result.description == "<p>test description</p>"
 
 @pytest.mark.parametrize("scraper, country", testdata)
 def test_get_detail_throws_no_sponsor_exception(scraper: DetailScraper, country: Countries):
