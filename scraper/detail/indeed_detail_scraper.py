@@ -10,7 +10,6 @@ from scraper.detail.no_sponsor_exception import NoSponsorException
 
 
 class IndeedDetailScraper(DetailScraper):
-
     def __init__(self, country: Countries = Countries.GB):
         super().__init__(Websites.INDEED, country)
 
@@ -32,7 +31,6 @@ class IndeedDetailScraper(DetailScraper):
         return job
 
     def validate_sponsorship(self, job_details_json) -> bool:
-
         if not job_details_json["benefitsModel"]:  # Jobs doesn't display benefits
             return False
 
@@ -47,7 +45,6 @@ class IndeedDetailScraper(DetailScraper):
 
     def harvest_details(self, job_details_json) -> Job:
         title = job_details_json["jobTitle"]
-        benefits = job_details_json["benefitsModel"]["benefits"]
         external_id = job_details_json["jobKey"]
         location = job_details_json["jobLocation"]
 
