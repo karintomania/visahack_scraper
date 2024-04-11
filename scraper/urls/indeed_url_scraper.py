@@ -10,7 +10,7 @@ from const.urls import Websites, link_prefixes, queries
 
 class IndeedUrlScraper(UrlScraper):
 
-    def __init__(self, country = Countries.GB):
+    def __init__(self, country=Countries.GB):
         super().__init__(Websites.INDEED, country)
 
     def scrape(self, page: int) -> List[Link]:
@@ -37,7 +37,10 @@ class IndeedUrlScraper(UrlScraper):
             external_id = job_title.find("a").get("data-jk")
 
             job_link = Link(
-                external_id=external_id, origin="indeed", url=link, country=self.country.value
+                external_id=external_id,
+                origin="indeed",
+                url=link,
+                country=self.country.value,
             )
             urls.append(job_link)
 
@@ -48,7 +51,7 @@ class IndeedGbUrlScraper(IndeedUrlScraper):
     def __init__(self):
         super().__init__(Countries.GB)
 
+
 class IndeedUsUrlScraper(IndeedUrlScraper):
     def __init__(self):
         super().__init__(Countries.US)
-        

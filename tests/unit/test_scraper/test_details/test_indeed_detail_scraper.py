@@ -1,5 +1,9 @@
 from pathlib import Path
-from scraper.detail.indeed_detail_scraper import IndeedDetailScraper, IndeedGbDetailScraper, IndeedUsDetailScraper
+from scraper.detail.indeed_detail_scraper import (
+    IndeedDetailScraper,
+    IndeedGbDetailScraper,
+    IndeedUsDetailScraper,
+)
 from scraper.detail.detail_scraper import DetailScraper
 from scraper.detail.no_sponsor_exception import NoSponsorException
 from pytest import raises
@@ -10,6 +14,7 @@ testdata = [
     (IndeedGbDetailScraper(), Countries.GB),
     (IndeedUsDetailScraper(), Countries.US),
 ]
+
 
 @pytest.mark.parametrize("scraper, country", testdata)
 def test_get_detail_gets_job_detail(scraper: DetailScraper, country: Countries):
@@ -28,13 +33,14 @@ def test_get_detail_gets_job_detail(scraper: DetailScraper, country: Countries):
     assert result.salary == "From £55,000 a year"
     assert result.description == "<p>test description</p>"
 
+
 @pytest.mark.parametrize("scraper, country", testdata)
-def test_get_detail_throws_no_sponsor_exception(scraper: DetailScraper, country: Countries):
+def test_get_detail_throws_no_sponsor_exception(
+    scraper: DetailScraper, country: Countries
+):
     html_path = str(Path(__file__).parent) + "/indeed_details_no_visa.html"
     with open(html_path, "r") as html_file:
         html_source = html_file.read()
 
-
     with raises(NoSponsorException):
         scraper.get_detail(html_source)
-

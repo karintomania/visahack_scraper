@@ -3,7 +3,6 @@ from const.countries import Countries
 from const.urls import Websites
 
 
-
 def test_sanitise_html_remove_tags_and_attrs():
 
     ds = DetailScraper(Websites.INDEED, Countries.GB)

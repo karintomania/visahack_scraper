@@ -3,6 +3,7 @@ from models.db_connection import db
 from const.urls import Websites
 from const.countries import Countries
 
+
 def reset_job_links_table():
     with db.cursor() as cursor:
         cursor.execute("TRUNCATE TABLE job_links")
@@ -22,6 +23,7 @@ def test_constructor():
     assert l.url == "/job1"
     assert l.country == "GB"
 
+
 def test_get_enums():
     country = Countries.GB
     website = Websites.INDEED
@@ -34,8 +36,6 @@ def test_get_enums():
 
     assert country == l.getCountry()
     assert website == l.getWebsite()
-
-    
 
 
 def test_save():
@@ -56,11 +56,11 @@ def test_save():
     assert result.url == "/job1"
     assert result.country == "GB"
 
-    
+
 def test_find_no_details():
     reset_job_links_table()
     links = (
-        Link( # This should be selected
+        Link(  # This should be selected
             external_id="abc001",
             origin=Websites.INDEED.value,
             url="/job1",
@@ -72,18 +72,18 @@ def test_find_no_details():
             origin=Websites.INDEED.value,
             url="/job1",
             country=Countries.GB.value,
-            has_detail=True, # Has details
+            has_detail=True,  # Has details
         ),
         Link(
             external_id="abc003",
             origin=Websites.INDEED.value,
             url="/job1",
-            country=Countries.US.value, # wrong country
+            country=Countries.US.value,  # wrong country
             has_detail=False,
         ),
         Link(
             external_id="abc004",
-            origin=Websites.REED.value, # wrong origin
+            origin=Websites.REED.value,  # wrong origin
             url="/job1",
             country=Countries.US.value,
             has_detail=False,

@@ -5,6 +5,7 @@ import datetime
 from scraper.option import get_options
 import atexit
 
+
 class WebDriver:
     _instance = None
 
@@ -22,6 +23,7 @@ class WebDriver:
         if cls._instance:
             cls._instance.quit()
             cls._instance = None
+
 
 def read_html(url: str) -> str:
     options = get_options()

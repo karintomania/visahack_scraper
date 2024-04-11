@@ -126,3 +126,4 @@ scraped/
 logs/
 
 **/secret.yaml
+**/cheatsheet.md

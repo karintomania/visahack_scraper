@@ -65,6 +65,7 @@ def test_save():
     assert result.description == "This is the job description"
     assert result.active == True
 
+
 def test_get_enums():
     country = Countries.GB
     website = Websites.INDEED
@@ -84,5 +85,3 @@ def test_get_enums():
     )
     assert country == job.getCountry()
     assert website == job.getWebsite()
-
-    

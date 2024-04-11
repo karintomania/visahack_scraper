@@ -33,7 +33,7 @@ class IndeedDetailScraper(DetailScraper):
 
     def validate_sponsorship(self, job_details_json) -> bool:
 
-        if not job_details_json["benefitsModel"]: # Jobs doesn't display benefits
+        if not job_details_json["benefitsModel"]:  # Jobs doesn't display benefits
             return False
 
         benefits = job_details_json["benefitsModel"]["benefits"]
@@ -43,7 +43,7 @@ class IndeedDetailScraper(DetailScraper):
             "visa sponsorship" in benefit["label"].lower() for benefit in benefits
         )
 
-        return has_sponsorship 
+        return has_sponsorship
 
     def harvest_details(self, job_details_json) -> Job:
         title = job_details_json["jobTitle"]
@@ -84,15 +84,16 @@ class IndeedDetailScraper(DetailScraper):
         job_details_json = json.loads(str(json_str))
         return job_details_json
 
+
 class IndeedGbDetailScraper(IndeedDetailScraper):
     def __init__(self):
         super().__init__(Countries.GB)
-    pass
 
+    pass
 
 
 class IndeedUsDetailScraper(IndeedDetailScraper):
     def __init__(self):
         super().__init__(Countries.US)
-    pass
 
+    pass

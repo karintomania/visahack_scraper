@@ -15,7 +15,9 @@ def harvest(scraper: DetailScraper, scraper_name: str) -> bool:
     valid_link_count = 0
 
     for link in links:
-        logger.info(f"start scrape_detail {link.id}, {link.origin}, {link.country}, {link.external_id}")
+        logger.info(
+            f"start scrape_detail {link.id}, {link.origin}, {link.country}, {link.external_id}"
+        )
         sleep(SLEEP_BETWEEN_DETAILS)
         try:
             result = scraper.scrape(link)
@@ -34,7 +36,10 @@ def harvest(scraper: DetailScraper, scraper_name: str) -> bool:
             logger.exception(e)
             break
 
-    logger.info(f"Finish scrape_detail {scraper_name}. Harvested {valid_link_count} valid inks out of {len(links)} links.")
+    logger.info(
+        f"Finish scrape_detail {scraper_name}. Harvested {valid_link_count} valid inks out of {len(links)} links."
+    )
+
 
 def harvest_details(scraper: DetailScraper) -> None:
 
@@ -51,7 +56,3 @@ def harvest_details(scraper: DetailScraper) -> None:
         except Exception as e:
             logger.exception(e)
             counter += 1
-
-
-
-
