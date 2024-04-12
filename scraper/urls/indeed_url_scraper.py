@@ -1,11 +1,10 @@
 from typing import List
-from models.job import Job
 from models.link import Link
 from scraper.read_html import read_html
 from bs4 import BeautifulSoup
 from scraper.urls.url_scraper import UrlScraper
 from const.countries import Countries
-from const.urls import Websites, link_prefixes, queries
+from const.urls import Websites, link_prefixes
 
 
 class IndeedUrlScraper(UrlScraper):
