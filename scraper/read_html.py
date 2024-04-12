@@ -26,9 +26,6 @@ class WebDriver:
 
 
 def read_html(url: str) -> str:
-    options = get_options()
-    s = Service("/usr/bin/chromedriver")
-
     driver = WebDriver.get_instance()
     driver.get(url)
     html_source = driver.page_source

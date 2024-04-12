@@ -9,5 +9,5 @@ class UrlScraper:
         self.website = website
         self.country = country
 
-    def scrape(self, page: int) -> List[Link]:
-        pass
+    def scrape(self, url: str) -> List[Link]:
+        raise NotImplementedError()

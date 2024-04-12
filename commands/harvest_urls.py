@@ -1,19 +1,12 @@
-from const.urls import Websites
-from const.countries import Countries
-from scraper.urls.url_scraper import UrlScraper
-from common.logger import logger
-from mysql.connector import IntegrityError
-from models.link import Link
 from time import sleep
+from mysql.connector import IntegrityError
+from common.logger import logger
 from const.common import SLEEP_BETWEEN_URL, SCRAPING_RETRY_ON_ERROR
-
-
-target_pages = {
-    Websites.INDEED: {
-        Countries.GB: 3,
-        Countries.US: 10,
-    },
-}
+from const.countries import Countries
+from const.urls import Websites
+from models.link import Link
+from scraper.urls.url_generator import generate_url
+from scraper.urls.url_scraper import UrlScraper
 
 
 def save_link(link: Link):
@@ -33,27 +26,29 @@ def save_link(link: Link):
 
 
 def harvest_urls(scraper: UrlScraper) -> None:
-
     scraper_name = type(scraper).__name__
     logger.info(f"start scrape_url {scraper_name}")
 
-    end_page = target_pages[scraper.website][scraper.country]
-    for i in range(end_page):
+    urls = generate_url(scraper.website, scraper.country)
+
+    for url in urls:
         sleep(SLEEP_BETWEEN_URL)  # sleep to not DDoS
-        logger.info(f"start scrape_url {scraper_name}, page: {i}")
+        logger.info(f"start scrape_url {scraper_name}, {url}")
 
         counter = 0
         is_finished = False
 
+        links = []
         while SCRAPING_RETRY_ON_ERROR > counter and not is_finished:
             try:
-                links = scraper.scrape(i)
+                links = scraper.scrape(url)
                 is_finished = True
             except Exception as e:
                 logger.error(e)
                 counter += 1
 
-        for link in links:
-            save_link(link)
+        if links:
+            for link in links:
+                save_link(link)
 
     logger.info(f"finish scrape_url {scraper_name}")

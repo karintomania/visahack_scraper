@@ -9,15 +9,10 @@ from const.urls import Websites, link_prefixes, queries
 
 
 class IndeedUrlScraper(UrlScraper):
-
     def __init__(self, country=Countries.GB):
         super().__init__(Websites.INDEED, country)
 
-    def scrape(self, page: int) -> List[Link]:
-
-        start_index = page * 10
-        url = queries[self.website][self.country].format(start_index)
-
+    def scrape(self, url: str) -> List[Link]:
         html_source = read_html(url)
 
         result = self.get_list(html_source)
