@@ -2,8 +2,8 @@ from models.job import Job
 from models.link import Link
 from models.db_connection import db
 from datetime import datetime, timedelta
-from const.common import JOB_EXPIRED_DAYS, JOB_REMOVAL_DAYS
-from cleaner.clean_query import deactivate_jobs, clean_links
+from const.common import JOB_EXPIRED_DAYS, JOB_REMOVAL_DAYS, LINK_REMOVAL_DAYS
+from cleaner.clean_query import deactivate_jobs, clean_jobs, clean_links
 
 
 target_job_id: int = 1
@@ -84,12 +84,31 @@ def test_deactivate_jobs():
     assert row_count == 1
 
 
+def test_clean_jobs():
+    prepare_db()
+
+    with db.cursor() as cursor:
+        now = datetime.now()
+        job_expired = now - timedelta(days=(JOB_REMOVAL_DAYS + 1))
+        target_job_id = insert_job(cursor, job_expired)
+
+    job = Job.find_by_id(target_job_id)
+
+    # the job is active when it's created
+    assert job.id == target_job_id
+
+    row_count = clean_jobs()
+
+    updated_job = Job.find_by_id(target_job_id)
+    assert updated_job == None
+    assert row_count == 1
+
 def test_clean_links():
     prepare_db()
 
     with db.cursor() as cursor:
         now = datetime.now()
-        link_expired = now - timedelta(days=(JOB_REMOVAL_DAYS + 1))
+        link_expired = now - timedelta(days=(LINK_REMOVAL_DAYS + 1))
         target_link_id = insert_link(cursor, link_expired)
 
     link = Link.find_by_id(target_link_id)

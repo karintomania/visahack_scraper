@@ -1,5 +1,5 @@
 from models.db_connection import db
-from const.common import JOB_EXPIRED_DAYS, JOB_REMOVAL_DAYS
+from const.common import JOB_EXPIRED_DAYS, JOB_REMOVAL_DAYS, LINK_REMOVAL_DAYS
 
 
 def deactivate_jobs():
@@ -34,7 +34,7 @@ def clean_links():
 
         delete_query = f"""
         DELETE FROM job_links 
-        WHERE created_at < DATE_SUB(NOW(), INTERVAL {JOB_REMOVAL_DAYS} DAY);
+        WHERE created_at < DATE_SUB(NOW(), INTERVAL {LINK_REMOVAL_DAYS} DAY);
         """
         cursor.execute(delete_query)
 
