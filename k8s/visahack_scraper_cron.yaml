@@ -13,39 +13,42 @@ spec:
         spec:
           containers:
             - name: visahack-scrape
-              image: ghcr.io/karintomania/visahack_scrape@sha256:e453cc78506c78d9087a43c530630a321806c297d8555af36c92ed10ade9194e
+              image: ghcr.io/karintomania/visahack_scrape@sha256:1d5e5377a084f898fcf152f319b5dbdb8f4f65b4ff6eb53949341eb6caed918a
               imagePullPolicy: IfNotPresent
-              command:
-              - /bin/sh
-              - -c
-              - |
-                mkdir -p ~/.ssh
-                cp /etc/ssh-key/ssh-privatekey ~/.ssh/id_rsa
-                chmod 600 ~/.ssh/id_rsa
-                # Start the SSH tunnel & keep it in the background
-                ssh -o StrictHostKeyChecking=no -N -L 127.0.0.1:3306:localhost:3306 hideaki@46.101.1.52 &
-                sleep 10
-                sh entrypoint.sh
+              # command:
+              # - /bin/sh
+              # - -c
+              # - |
+              #   tail -f /dev/null
               volumeMounts:
               - mountPath: /dev/shm
                 name: cache-volume
-              - mountPath: /etc/ssh-key
-                name: ssh-key-secret
-                readOnly: true
               env:
                 - name: DB_HOST
-                  value: localhost
+                  value: mysql
                 - name: DB_PORT
                   value: "3306"
                 - name: DB_USERNAME
-                  value: "appuser"
+                  value: "root"
                 - name: DB_NAME
-                  value: "visahack"
+                  value: "visahack_scraper"
                 - name: DB_PASSWORD
                   valueFrom:
                       secretKeyRef:
                         name: visahack-secrets
                         key: mysql-password
+                - name: JOB_EXPIRED_DAYS
+                  value: 30
+                - name: JOB_REMOVAL_DAYS
+                  value: 90
+                - name: LINK_REMOVAL_DAYS
+                  value: 30
+                - name: SLEEP_BETWEEN_URL
+                  value: 10
+                - name: SLEEP_BETWEEN_DETAILS
+                  value: 5
+                - name: SCRAPING_RETRY_ON_ERROR
+                  value: 2
           imagePullSecrets:
           - name: ghcr-io-cred
           restartPolicy: OnFailure
@@ -54,6 +57,3 @@ spec:
               medium: Memory
               sizeLimit: 256Mi
             name: cache-volume
-          - name: ssh-key-secret
-            secret:
-              secretName: ssh-key-secret
