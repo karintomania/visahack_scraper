@@ -7,19 +7,17 @@ from const.urls import Websites
 from models.link import Link
 from scraper.urls.url_generator import generate_url
 from scraper.urls.url_scraper import UrlScraper
+from commands.check_duplication import has_duplication
 
 
 def save_link(link: Link):
+    # Check duplication
+    if has_duplication(link.external_id):
+        logger.info(f"Duplicate link. ID: {link.external_id}, Origin: {link.origin}")
+        return
+
     try:
         link.save()
-    except IntegrityError as e:
-        if "Duplicate entry" in str(e):
-            logger.info(
-                f"Duplicate link. ID: {link.external_id}, Origin: {link.origin}"
-            )
-        else:
-            logger.error("Error on scraping indeed url country={country}, i={i}")
-            logger.exception(e)
     except Exception as e:
         logger.error("Error on scraping indeed url country={country}, i={i}")
         logger.exception(e)
