@@ -13,25 +13,34 @@ spec:
         spec:
           containers:
             - name: visahack-scrape
-              image: ghcr.io/karintomania/visahack_scrape@sha256:74c48b939e41f9dc6f379060589473d8f045cceb0c8d3980a77d23e00e94158b
+              image: ghcr.io/karintomania/visahack_scrape@sha256:e453cc78506c78d9087a43c530630a321806c297d8555af36c92ed10ade9194e
               imagePullPolicy: IfNotPresent
-              # command:
-              # - /bin/sh
-              # - -c
-              # - |
-              #   tail -f /dev/null
+              command:
+              - /bin/sh
+              - -c
+              - |
+                mkdir -p ~/.ssh
+                cp /etc/ssh-key/ssh-privatekey ~/.ssh/id_rsa
+                chmod 600 ~/.ssh/id_rsa
+                # Start the SSH tunnel & keep it in the background
+                ssh -o StrictHostKeyChecking=no -N -L 127.0.0.1:3306:localhost:3306 hideaki@46.101.1.52 &
+                sleep 10
+                sh entrypoint.sh
               volumeMounts:
               - mountPath: /dev/shm
                 name: cache-volume
+              - mountPath: /etc/ssh-key
+                name: ssh-key-secret
+                readOnly: true
               env:
                 - name: DB_HOST
-                  value: mysql
+                  value: localhost
                 - name: DB_PORT
                   value: "3306"
                 - name: DB_USERNAME
-                  value: "root"
+                  value: "appuser"
                 - name: DB_NAME
-                  value: "visahack_scraper"
+                  value: "visahack"
                 - name: DB_PASSWORD
                   valueFrom:
                       secretKeyRef:
@@ -57,3 +66,6 @@ spec:
               medium: Memory
               sizeLimit: 256Mi
             name: cache-volume
+          - name: ssh-key-secret
+            secret:
+              secretName: ssh-key-secret
