@@ -1,3 +1,4 @@
+from typing import Optional
 from typing_extensions import Self
 from models.db_connection import db
 from const.urls import Websites
@@ -38,8 +39,19 @@ class Job:
         self.updated_at = updated_at
 
     @classmethod
-    def find_by_id(cls, id: int):
+    def find_by_id(cls, id: int) -> Optional[Self]:
         query = "SELECT * FROM job_posts WHERE id = %s"
+        with db.cursor() as cursor:
+            cursor.execute(query, (id,))
+            record = cursor.fetchone()
+        if record:
+            job = cls.convert_db_row(record)
+            return job
+        return None
+
+    @classmethod
+    def find_by_external_id(cls, id: int) -> Optional[Self]:
+        query = "SELECT * FROM job_posts WHERE external_id = %s"
         with db.cursor() as cursor:
             cursor.execute(query, (id,))
             record = cursor.fetchone()

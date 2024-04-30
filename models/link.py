@@ -1,11 +1,11 @@
-from typing import List
+from typing import List, Optional
+from typing_extensions import Self
 from models.db_connection import db
 from const.urls import Websites
 from const.countries import Countries
 
 
 class Link:
-
     def __init__(
         self,
         id=None,
@@ -25,7 +25,7 @@ class Link:
         self.created_at = created_at
 
     @classmethod
-    def find_by_id(cls, id: int):
+    def find_by_id(cls, id: int) -> Optional[Self]:
         query = "SELECT * FROM job_links WHERE id = %s"
 
         with db.cursor() as cursor:
@@ -48,7 +48,30 @@ class Link:
         return None
 
     @classmethod
-    def find_no_details(cls, websites: Websites, country: Countries):
+    def find_by_external_id(cls, id: int) -> Optional[Self]:
+        query = "SELECT * FROM job_links WHERE external_id = %s"
+
+        with db.cursor() as cursor:
+            cursor.execute(query, (id,))
+            record = cursor.fetchone()
+
+        if record:
+            link = cls(
+                id=record[0],
+                external_id=record[1],
+                origin=record[2],
+                url=record[3],
+                country=record[4],
+                has_detail=bool(record[5]),
+                created_at=record[6],
+            )
+
+            return link
+
+        return None
+
+    @classmethod
+    def find_no_details(cls, websites: Websites, country: Countries) -> List[Self]:
         query = """SELECT * FROM job_links
                 WHERE has_detail = 0
                 AND origin = %s
@@ -58,7 +81,7 @@ class Link:
             cursor.execute(query, (websites.value, country.value))
             records = cursor.fetchall()
 
-        links: List[Link] = []
+        links: List[Self] = []
         for record in records:
             link = cls(
                 id=record[0],
