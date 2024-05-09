@@ -1,4 +1,4 @@
-echo "start entrypoint.sh"
+echo "start get_jobs.sh"
 
 cd /app
 # scrape indeed
@@ -7,4 +7,4 @@ cd /app
 # delete old records
 /usr/local/bin/python -m crons.clean
 
-echo "finish entrypoint.sh"
+echo "finish get_jobs.sh"
