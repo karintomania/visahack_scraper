@@ -1,8 +1,9 @@
-from typing import Optional
+from typing import List, Optional
 from typing_extensions import Self
 from models.db_connection import db
 from const.urls import Websites
 from const.countries import Countries
+from datetime import datetime
 
 
 class Job:
@@ -20,8 +21,8 @@ class Job:
         job_type: str = "",
         description: str = "",
         active: bool = False,
-        created_at=None,
-        updated_at=None,
+        created_at: Optional[datetime] = None,
+        updated_at: Optional[datetime] = None,
     ):
         self.id = id
         self.external_id = external_id
@@ -35,8 +36,8 @@ class Job:
         self.job_type = job_type
         self.description = description
         self.active = active
-        self.created_at = created_at
-        self.updated_at = updated_at
+        self.created_at = created_at if created_at else None
+        self.updated_at = updated_at if updated_at else None
 
     @classmethod
     def find_by_id(cls, id: int) -> Optional[Self]:
@@ -59,6 +60,25 @@ class Job:
             job = cls.convert_db_row(record)
             return job
         return None
+
+    @classmethod
+    def get_expiration_check_target(cls, website: Websites) -> List[Self]:
+        day_of_expire = 2
+        query = """
+        SELECT * FROM job_posts 
+        WHERE updated_at < DATE_SUB(NOW(), INTERVAL %s DAY)
+        AND origin = %s
+        """
+
+        with db.cursor() as cursor:
+            cursor.execute(query, (day_of_expire, website.value))
+            records = cursor.fetchall()
+
+        result = []
+        for record in records:
+            result.append(cls.convert_db_row(record))
+
+        return result
 
     @classmethod
     def convert_db_row(cls, row) -> Self:
@@ -102,7 +122,8 @@ class Job:
             "UPDATE job_posts SET "
             "external_id = %s, origin = %s, title = %s, company = %s, "
             "url = %s, country = %s, salary = %s, location = %s, "
-            "job_type = %s, description = %s, active = %s "
+            "job_type = %s, description = %s, active = %s, "
+            "updated_at = CURRENT_TIMESTAMP "
             "WHERE id = %s"
         )
         data = (
@@ -124,8 +145,8 @@ class Job:
     def insert_row(self):
         query = (
             "INSERT INTO job_posts "
-            "(external_id, origin, title, company, url, country, salary, location, job_type, description, active) "
-            "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+            "(external_id, origin, title, company, url, country, salary, location, job_type, description, active, created_at, updated_at) "
+            "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)"
         )
         data = (
             self.external_id,
