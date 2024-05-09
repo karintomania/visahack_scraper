@@ -12,6 +12,7 @@ def check_expiration(checker: ExpirationChecker):
     logger.info(f"start expiration check: {checker_name}")
 
     jobs_to_check = Job.get_expiration_check_target(checker.website)
+    expired_count = 0
 
     for job in jobs_to_check:
         sleep(SLEEP_BETWEEN_URL)
@@ -22,6 +23,7 @@ def check_expiration(checker: ExpirationChecker):
                 logger.info(f"Expired job id: {job.id}")
                 job.active = False
                 job.save()
+                expired_count += 1
 
         except Exception as e:
             logger.error(
@@ -29,4 +31,6 @@ def check_expiration(checker: ExpirationChecker):
             )
             logger.exception(e)
 
-    pass
+    logger.info(
+        f"finish expiration check: {checker_name}, {expired_count} jobs are expired."
+    )
