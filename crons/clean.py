@@ -1,7 +1,6 @@
 from cleaner.clean_query import deactivate_jobs, clean_jobs, clean_links
 from common.logger import logger
 
-print("running!")
 logger.info("Start cleaning")
 
 # deactivate jobs

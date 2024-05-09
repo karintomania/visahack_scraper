@@ -23,7 +23,6 @@ def test_generate_url_generates_urls():
     urls = url_generator.generate_url(website, country)
 
     assert 4 == len(urls)
-    print(urls)
 
     assert "https://test.example/?q=engineer&start=0" == urls[0]
     assert "https://test.example/?q=engineer&start=1" == urls[1]
