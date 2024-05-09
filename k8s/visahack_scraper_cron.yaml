@@ -13,7 +13,7 @@ spec:
         spec:
           containers:
             - name: visahack-scrape
-              image: ghcr.io/karintomania/visahack_scrape@sha256:e453cc78506c78d9087a43c530630a321806c297d8555af36c92ed10ade9194e
+              image: ghcr.io/karintomania/visahack_scrape@sha256:624392b2c16fe6ff85473c2cb219fcef40c3e3b15b983eea3438c8a216fa0a7e
               imagePullPolicy: IfNotPresent
               command:
               - /bin/sh
@@ -25,7 +25,7 @@ spec:
                 # Start the SSH tunnel & keep it in the background
                 ssh -o StrictHostKeyChecking=no -N -L 127.0.0.1:3306:localhost:3306 hideaki@46.101.1.52 &
                 sleep 10
-                sh scripts/get_jobs.sh
+                sh /app/scripts/get_jobs.sh
               volumeMounts:
               - mountPath: /dev/shm
                 name: cache-volume
@@ -86,7 +86,7 @@ spec:
         spec:
           containers:
             - name: visahack-scrape
-              image: ghcr.io/karintomania/visahack_scrape@sha256:e453cc78506c78d9087a43c530630a321806c297d8555af36c92ed10ade9194e
+              image: ghcr.io/karintomania/visahack_scrape@sha256:624392b2c16fe6ff85473c2cb219fcef40c3e3b15b983eea3438c8a216fa0a7e
               imagePullPolicy: IfNotPresent
               command:
               - /bin/sh
@@ -98,7 +98,7 @@ spec:
                 # Start the SSH tunnel & keep it in the background
                 ssh -o StrictHostKeyChecking=no -N -L 127.0.0.1:3306:localhost:3306 hideaki@46.101.1.52 &
                 sleep 10
-                sh scripts/expiraiton_check.sh
+                sh /app/scripts/expiration_check.sh
               volumeMounts:
               - mountPath: /dev/shm
                 name: cache-volume

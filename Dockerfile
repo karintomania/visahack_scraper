@@ -22,5 +22,4 @@ COPY . /app
 RUN pip install --no-cache-dir -r requirements-prod.txt
 
 LABEL org.opencontainers.image.source=https://github.com/karintomania/visahack_scraper
-RUN chmod +x /app/entrypoint.sh
-CMD ["sh", "/app/entrypoint.sh"]
+RUN chmod +x /app/scripts/*.sh
