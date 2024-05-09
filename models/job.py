@@ -39,8 +39,8 @@ class Job:
         self.job_type = job_type
         self.description = description
         self.active = active
-        self.created_at = created_at if created_at else None
-        self.updated_at = updated_at if updated_at else None
+        self.created_at = created_at
+        self.updated_at = updated_at
 
     @classmethod
     def find_by_id(cls, id: int) -> Optional[Self]:

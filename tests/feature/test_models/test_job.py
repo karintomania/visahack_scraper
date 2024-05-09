@@ -122,10 +122,13 @@ class JobTestCase(unittest.TestCase):
         old_date_str = old_date.strftime("%Y-%m-%d, %H:%M:%S")
 
         with db.cursor() as cursor:
-            cursor.execute(f"""
-                UPDATE job_posts SET updated_at = \"{old_date_str}\"
-                WHERE id = {old_job_id}
-            """)
+            cursor.execute(
+                """
+                UPDATE job_posts SET updated_at = %s
+                WHERE id = %s
+            """,
+                (old_date_str, old_job_id),
+            )
 
         result = Job.get_expiration_check_target(Websites.INDEED)
 

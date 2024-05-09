@@ -1,11 +1,12 @@
 import unittest
-from expiration_checker.indeed_expiration_checker import IndeedGbExpirationChecker
-from unittest.mock import MagicMock, call, patch
+from unittest.mock import patch
+
+from expiration_checker.indeed_expiration_checker import IndeedExpirationChecker
 
 
 class TestIndeedExpirationChecker(unittest.TestCase):
     def setUp(self):
-        self.checker = IndeedGbExpirationChecker()
+        self.checker = IndeedExpirationChecker()
 
     @patch("expiration_checker.indeed_expiration_checker.read_html")
     def test_is_url_expired_returns_true_on_expired_url(self, read_html_mock):
