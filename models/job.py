@@ -1,9 +1,12 @@
-from typing import List, Optional
-from typing_extensions import Self
-from models.db_connection import db
-from const.urls import Websites
-from const.countries import Countries
 from datetime import datetime
+from typing import List, Optional
+
+from typing_extensions import Self
+
+from const.common import EXPIRATION_CHECK_FREQUENCY_DAYS
+from const.countries import Countries
+from const.urls import Websites
+from models.db_connection import db
 
 
 class Job:
@@ -63,7 +66,6 @@ class Job:
 
     @classmethod
     def get_expiration_check_target(cls, website: Websites) -> List[Self]:
-        day_of_expire = 2
         query = """
         SELECT * FROM job_posts 
         WHERE updated_at < DATE_SUB(NOW(), INTERVAL %s DAY)
@@ -71,7 +73,7 @@ class Job:
         """
 
         with db.cursor() as cursor:
-            cursor.execute(query, (day_of_expire, website.value))
+            cursor.execute(query, (EXPIRATION_CHECK_FREQUENCY_DAYS, website.value))
             records = cursor.fetchall()
 
         result = []
