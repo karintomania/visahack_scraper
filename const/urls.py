@@ -12,4 +12,8 @@ link_prefixes = {
         Countries.GB: "https://uk.indeed.com{}",
         Countries.US: "https://indeed.com{}",
     },
+    Websites.REED: {
+        Countries.GB: "https://www.reed.co.uk{}",
+        Countries.US: "https://www.reed.co.uk{}",
+    },
 }
