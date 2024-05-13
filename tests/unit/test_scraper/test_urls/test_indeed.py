@@ -4,15 +4,9 @@ import unittest
 from unittest.mock import patch
 import pytest
 
-testdata = [
-    (IndeedGbUrlScraper()),
-    (IndeedUsUrlScraper()),
-]
-
 
 @patch("scraper.urls.indeed_url_scraper.read_html")
-@pytest.mark.parametrize("scraper", testdata)
-def test_get_list_gets_list_gb(read_mock, scraper):
+def test_get_list_gets_list_gb(read_mock):
     scraper = IndeedGbUrlScraper()
     test_html = str(Path(__file__).parent) + "/test_indeed.html"
 
@@ -31,3 +25,6 @@ def test_get_list_gets_list_gb(read_mock, scraper):
         assert result[1].external_id == "abc02"
         assert result[1].origin == scraper.website.value
         assert result[1].country == scraper.country.value
+
+
+# TODO: write test for US

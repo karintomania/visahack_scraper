@@ -9,17 +9,26 @@ target_links = {
                 "https://uk.indeed.com/jobs?q=software+engineer+%22UK+visa+sponsorship%22&l=United+Kingdom&sort=date&start={}",
                 "https://uk.indeed.com/jobs?q=developer+%22UK+visa+sponsorship%22&l=United+Kingdom&sort=date&start={}",
             ),
-            "pages_to_scrape": 1,
+            "pages_to_scrape": 2,
         },
         Countries.US: {
             "queries": (
                 "https://www.indeed.com/jobs?q=software+engineer+%22Visa+sponsorship%22&l=United+States&sort=date&start={}",
                 "https://www.indeed.com/jobs?q=developer+%22Visa+sponsorship%22&l=United+States&sort=date&start={}",
             ),
-            "pages_to_scrape": 1,
+            "pages_to_scrape": 3,
+        },
+    },
+    Websites.REED: {
+        Countries.GB: {
+            "queries": (
+                "https://www.reed.co.uk/jobs/software-engineer-jobs-in-united-kingdom?pageno={}",
+            ),
+            "pages_to_scrape": 2,
         },
     },
 }
+# "https://www.reed.co.uk/jobs/software-engineer-jobs-in-united-kingdom?visaSponsorship=true?pageno={}",
 
 
 def generate_url(website: Websites, country: Countries) -> List[str]:
