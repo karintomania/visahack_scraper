@@ -22,13 +22,13 @@ target_links = {
     Websites.REED: {
         Countries.GB: {
             "queries": (
-                "https://www.reed.co.uk/jobs/software-engineer-jobs-in-united-kingdom?pageno={}",
+                "https://www.reed.co.uk/jobs/software-engineer-jobs-in-united-kingdom?visaSponsorship=true?pageno={}",
+                "https://www.reed.co.uk/jobs/software-developer-jobs-in-united-kingdom?visaSponsorship=true?pageno={}",
             ),
             "pages_to_scrape": 2,
         },
     },
 }
-# "https://www.reed.co.uk/jobs/software-engineer-jobs-in-united-kingdom?visaSponsorship=true?pageno={}",
 
 
 def generate_url(website: Websites, country: Countries) -> List[str]:
