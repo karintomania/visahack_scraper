@@ -21,11 +21,15 @@ class TestReedUrlScraper(unittest.TestCase):
 
             result = scraper.scrape("test.example")
 
-            self.assertEqual("https://www.reed.co.uk/jobs/software-engineer/51867796", result[0].url)
+            self.assertEqual(
+                "https://www.reed.co.uk/jobs/software-developer/001", result[0].url
+            )
             self.assertEqual(Websites.REED.value, result[0].origin)
             self.assertEqual("job51867796", result[0].external_id)
             self.assertEqual(Countries.GB.value, result[0].country)
-            self.assertEqual("https://www.reed.co.uk/jobs/senior-software-engineer-sre/52507304", result[1].url)
+            self.assertEqual(
+                "https://www.reed.co.uk/jobs/software-developer/002", result[1].url
+            )
             self.assertEqual(Websites.REED.value, result[1].origin)
             self.assertEqual("job52507304", result[1].external_id)
             self.assertEqual(Countries.GB.value, result[1].country)

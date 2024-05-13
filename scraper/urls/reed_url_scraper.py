@@ -1,10 +1,13 @@
+import re
 from typing import List
-from models.link import Link
-from scraper.read_html import read_html
+
 from bs4 import BeautifulSoup
-from scraper.urls.url_scraper import UrlScraper
+
 from const.countries import Countries
 from const.urls import Websites, link_prefixes
+from models.link import Link
+from scraper.read_html import read_html
+from scraper.urls.url_scraper import UrlScraper
 
 
 class ReedUrlScraper(UrlScraper):
@@ -26,7 +29,9 @@ class ReedUrlScraper(UrlScraper):
         for article in articles:
             job_header = article.find("h2")
 
-            link = job_header.find("a").get("href")
+            uri = job_header.find("a").get("href")
+            uri = re.sub(r"\?.*", "", uri)
+            link = link_prefixes[self.website][self.country].format(uri)
 
             job_title = job_header.text
 
