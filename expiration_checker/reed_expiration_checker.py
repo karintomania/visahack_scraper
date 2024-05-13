@@ -7,7 +7,7 @@ from scraper.read_html import read_html
 class ReedExpirationChecker(ExpirationChecker):
     def __init__(self):
         # Reed doesn't have any difference between country. GB is just a placeholder.
-        super().__init__(Websites.INDEED, Countries.GB)
+        super().__init__(Websites.REED, Countries.GB)
 
     def is_url_expired(self, url: str) -> bool:
         html_source = read_html(url)

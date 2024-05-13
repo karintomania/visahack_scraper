@@ -69,6 +69,7 @@ class Job:
         query = """
         SELECT * FROM job_posts 
         WHERE updated_at < DATE_SUB(NOW(), INTERVAL %s DAY)
+        AND active = 1
         AND origin = %s
         """
 

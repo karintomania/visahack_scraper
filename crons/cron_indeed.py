@@ -19,17 +19,17 @@ from commands.harvest_details import harvest_details
 logger.info(f"start cron_indeed")
 
 url_scrapers = [
-    # IndeedGbUrlScraper(),
-    # IndeedUsUrlScraper(),
+    IndeedGbUrlScraper(),
+    IndeedUsUrlScraper(),
     ReedGbUrlScraper(),
 ]
 
-# for url_scraper in url_scrapers:
-#     harvest_urls(url_scraper)
+for url_scraper in url_scrapers:
+    harvest_urls(url_scraper)
 
 detail_scrapers = [
-    # IndeedGbDetailScraper(),
-    # IndeedUsDetailScraper(),
+    IndeedGbDetailScraper(),
+    IndeedUsDetailScraper(),
     ReedGbDetailScraper(),
 ]
 
